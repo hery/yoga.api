@@ -9,22 +9,22 @@
 
 
 (defun start ()
-  (print '(let the game begin)))
+  (setf *state* 'ask))
 
 
-(defun turn (success)
-  (and (update-turn success)
-       (update-state success)
-       (update-score success)))
+(defun turn ()
+  (progn (update-turn)
+	 (update-state)
+	 (update-score)))
 
 
-(defun update-turn (success)
+(defun update-turn ()
   (cond ((eq *turn* 'p1) (setf *turn* 'p2))
 	((eq *turn* 'p2) (setf *turn* 'p1))
 	(t (print '(unknown state during turn)))))
 
 
-(defun update-state (success)
+(defun update-state ()
   (cond ((equal *state* 'ready) (setf *state* 'ask))
 	((equal *state* 'ask )  (setf *state* 'reply))
 	((equal *state* 'reply) (setf *state* 'ask))))
@@ -35,8 +35,8 @@
 
 
 ; Should we check for MAX_SCORE here?
-(defun update-success-ounter (success)
-  (if (success)
+(defun update-success-counter (success)
+  (if (eq success t)
       (setf *success-counter* (1+ *success-counter*))))
 
 
@@ -44,4 +44,5 @@
   (and (print *turn*)
        (print *score*)
        (print *state*)
-       (print *success_counter*)))
+       (print *success-counter*)))
+
