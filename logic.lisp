@@ -27,8 +27,18 @@
 (defun update-state ()
   (cond ((equal *state* 'ready) (setf *state* 'ask))
 	((equal *state* 'ask )  (setf *state* 'reply))
-	((equal *state* 'reply) (setf *state* 'ask))))
+	((equal *state* 'validate) (setf *state* 'ask))
+	((equal *state* 'reply) (setf *state* 'validate))))
 
+
+; tentative alternative API
+; (turn 'ask)
+; (turn 'reply image)
+; (turn 'validate 't) or (turn 'validate nil)
+
+; Question: Can we structure our API like a REPL?
+; e.g. Payload = turn validate t token
+;                turn reply image token
 
 (defun update-score ()
   ())
